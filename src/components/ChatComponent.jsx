@@ -24,13 +24,21 @@ const ChatComponent = () => {
 
         try {
             setLoading(true);
-            const { data } = await axios.post(`${API_BASE_URL}/upload`, formData, {
+
+            const uploadUrl = `${API_BASE_URL}/upload`;
+            console.log("Making request to:", uploadUrl);  // Log the upload URL to ensure it's HTTPS
+            const { data } = await axios.post(uploadUrl, formData, {
                 headers: { "Content-Type": "multipart/form-data" },
             });
+
             setSelectedFiles(data.uploaded_files || []);
             const newSessionId = `session_${Date.now()}`;
             setSessionId(newSessionId);
-            await axios.post(`${API_BASE_URL}/init`, { urls, session_id: newSessionId });
+
+            const initUrl = `${API_BASE_URL}/init`;
+            console.log("Making request to:", initUrl);  // Log the init URL to ensure it's HTTPS
+            await axios.post(initUrl, { urls, session_id: newSessionId });
+
         } catch (error) {
             console.error("Upload Error:", error);
         } finally {
@@ -44,8 +52,15 @@ const ChatComponent = () => {
 
         try {
             setLoading(true);
-            await axios.post(`${API_BASE_URL}/query`, { session_id: sessionId, query: inputValue.trim() });
-            const { data } = await axios.get(`${API_BASE_URL}/`, { params: { session_id: sessionId, query: inputValue.trim() } });
+
+            const queryUrl = `${API_BASE_URL}/query`;
+            console.log("Making request to:", queryUrl);  // Log the query URL to ensure it's HTTPS
+            await axios.post(queryUrl, { session_id: sessionId, query: inputValue.trim() });
+
+            const fetchUrl = `${API_BASE_URL}/`;
+            console.log("Making request to:", fetchUrl);  // Log the fetch URL to ensure it's HTTPS
+            const { data } = await axios.get(fetchUrl, { params: { session_id: sessionId, query: inputValue.trim() } });
+
             if (data.response) {
                 setQueriesAndResponses((prev) => [...prev, { query: inputValue.trim(), response: data.response }]);
                 setInputValue(""); // Clear input field after submitting
