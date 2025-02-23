@@ -75,7 +75,7 @@ const CompetitorBenchmark = () => {
         <div className="max-w-3xl mx-auto p-8 bg-white rounded-xl shadow-lg space-y-6">
             {/* Header with Image */}
             <div className="text-center">
-                <img src="/images/Bench.png" alt="Bench" className="w-40 mx-auto mb-4" />
+                <img src="/images/Benchmark.jpeg" alt="Bench" className="w-40 mx-auto mb-4" />
                 <h2 className="text-3xl font-extrabold text-gray-900">AI-Driven Competitor Benchmarking</h2>
             </div>
 
@@ -137,9 +137,9 @@ const CompetitorBenchmark = () => {
 
             {/* Analysis Results Display */}
             {response && (
-                <div className="mt-6 p-6 bg-gray-100 rounded-lg shadow-inner">
+                <div className="mt-6 p-6 bg-gray-100 rounded-lg shadow-inner overflow-y-auto" style={{ maxHeight: "300px" }}>
                     <h3 className="text-lg font-bold text-gray-900 mb-3">Analysis Results:</h3>
-                    <div className="p-4 bg-white border border-gray-300 rounded-lg text-gray-800 max-h-[300px] overflow-auto break-words w-full max-w-full">
+                    <div className="p-4 bg-white border border-gray-300 rounded-lg text-gray-800 w-full">
                         {response}
                     </div>
                 </div>

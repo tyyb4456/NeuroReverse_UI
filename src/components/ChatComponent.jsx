@@ -38,7 +38,6 @@ const ChatComponent = () => {
 
             console.log("File upload response:", response.data);
             setSelectedFiles(response.data.uploaded_files || []);
-            alert("Files uploaded successfully.");
 
             // Automatically generate session ID after successful file upload
             const newSessionId = `session_${Date.now()}`;
@@ -46,10 +45,8 @@ const ChatComponent = () => {
             const requestData = { urls, session_id: newSessionId };
             console.log("Initializing session with data:", requestData);
             await axios.post(`${API_BASE_URL}/init`, requestData);
-            alert("Session initialized successfully.");
         } catch (error) {
             console.error("❌ Upload Error:", error);
-            alert("File upload failed.");
         } finally {
             setLoading(false);
             console.log("File upload process finished.");
@@ -60,20 +57,30 @@ const ChatComponent = () => {
     const fetchResponse = async () => {
         if (!sessionId) {
             console.log("Session ID is not set.");
-            return alert("Please initialize a session first.");
+            return;
         }
 
-        const query = inputValue.trim();
+        const query = String(inputValue).trim(); // Ensuring query is always a string
         console.log("User query:", query);
 
         if (!query) {
             console.log("Query is empty.");
-            return alert("Please enter a query.");
+            return;
         }
 
         try {
             setLoading(true);
-            console.log("Fetching AI response...");
+            console.log("Sending POST request with query and session ID...");
+
+            // First POST request to send query and session ID
+            await axios.post(`${API_BASE_URL}/query`, {
+                session_id: sessionId,
+                query,
+            });
+
+            console.log("POST request completed. Now fetching AI response...");
+
+            // Second GET request to fetch the response from the backend
             const response = await axios.get(`${API_BASE_URL}/`, {
                 params: { session_id: sessionId, query },
             });
