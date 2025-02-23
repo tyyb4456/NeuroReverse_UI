@@ -1,8 +1,8 @@
 import { Routes, Route } from "react-router-dom";
-import Home from "./components/HomePage"; // ✅ Imported as Home
+import Home from "./components/HomePage";
 import CompetitorBenchmark from "./components/CompetitorBenchmark";
-import Bench from "./components/Bench";
 import Sidebar from "./components/Sidebar";
+import ChatComponent from "./components/ChatComponent"; // Ensured consistency
 
 export default function App() {
   return (
@@ -10,14 +10,14 @@ export default function App() {
       <Sidebar />
       <div className="flex-1 p-6">
         <Routes>
-          <Route path="/" element={<Home />} /> {/* ✅ Fixed */}
+          <Route path="/" element={<Home />} />
           <Route path="/benchmarking" element={<CompetitorBenchmark />} />
-          <Route path="/bench" element={<Bench />} /> {/* ✅ Updated path */}
-          {/* <Route path="/blueprint-generation" element={<BlueprintGeneration />} /> */}
-          {/* <Route path="/patent-risk-analysis" element={<PatentRiskAnalysis />} /> */}
+          <Route path="/ai-assistant" element={<ChatComponent />} /> {/* ✅ Corrected route name */}
+          <Route path="/chat" element={<ChatComponent />} /> {/* ✅ Added alias for ChatComponent */}
         </Routes>
       </div>
     </div>
   );
 }
+
 
