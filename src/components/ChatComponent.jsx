@@ -12,7 +12,7 @@ const ChatComponent = () => {
     const [loading, setLoading] = useState(false);
     const [queriesAndResponses, setQueriesAndResponses] = useState([]);
     const [inputValue, setInputValue] = useState("");
-    const [showUrlInput, setShowUrlInput] = useState(false); // State to toggle URL input field
+    const [showUrlInput, setShowUrlInput] = useState(false);
 
     // 📂 Handle File Upload and Generate Session ID
     const handleFileUpload = async (event) => {
@@ -39,7 +39,6 @@ const ChatComponent = () => {
             console.log("File upload response:", response.data);
             setSelectedFiles(response.data.uploaded_files || []);
 
-            // Automatically generate session ID after successful file upload
             const newSessionId = `session_${Date.now()}`;
             setSessionId(newSessionId);
             const requestData = { urls, session_id: newSessionId };
@@ -60,7 +59,7 @@ const ChatComponent = () => {
             return;
         }
 
-        const query = String(inputValue).trim(); // Ensuring query is always a string
+        const query = String(inputValue).trim();
         console.log("User query:", query);
 
         if (!query) {
@@ -72,7 +71,6 @@ const ChatComponent = () => {
             setLoading(true);
             console.log("Sending POST request with query and session ID...");
 
-            // First POST request to send query and session ID
             await axios.post(`${API_BASE_URL}/query`, {
                 session_id: sessionId,
                 query,
@@ -80,7 +78,6 @@ const ChatComponent = () => {
 
             console.log("POST request completed. Now fetching AI response...");
 
-            // Second GET request to fetch the response from the backend
             const response = await axios.get(`${API_BASE_URL}/`, {
                 params: { session_id: sessionId, query },
             });
@@ -111,7 +108,6 @@ const ChatComponent = () => {
 
             {/* File Upload Section */}
             <div className="space-y-4">
-                {/* Conditionally Render File Upload or URL Input */}
                 {!showUrlInput ? (
                     <div>
                         <label className="block text-lg font-semibold text-gray-700 mb-2">
@@ -126,8 +122,15 @@ const ChatComponent = () => {
                                 className="absolute inset-0 opacity-0 w-full cursor-pointer"
                             />
                             <span className="text-gray-700">
-                                {selectedFiles.length > 0 ? selectedFiles.map(f => f.name).join(", ") : "Choose files..."}
+                                {selectedFiles.length > 0
+                                    ? selectedFiles.map(f => f.name).join(", ")
+                                    : "Choose files..."}
                             </span>
+                            {loading && (
+                                <div className="absolute right-4 text-gray-600">
+                                    <div className="w-5 h-5 border-4 border-t-transparent border-blue-500 rounded-full animate-spin" />
+                                </div>
+                            )}
                         </div>
                     </div>
                 ) : (
@@ -149,15 +152,18 @@ const ChatComponent = () => {
                 )}
 
                 {/* Toggle Link to Switch to URL Input */}
-                <div className="text-blue-500 cursor-pointer mt-2 flex items-center gap-1" onClick={() => setShowUrlInput((prev) => !prev)}>
+                <div
+                    className="text-blue-500 cursor-pointer mt-2 flex items-center gap-1"
+                    onClick={() => setShowUrlInput((prev) => !prev)}
+                >
                     {showUrlInput ? <IoArrowBack /> : <IoLink />}
                     {showUrlInput ? "Back to File Upload" : "Need to add URL?"}
                 </div>
             </div>
 
             {/* Query and Response */}
-            <div className="mt-6 flex-grow overflow-y-auto max-h-96">
-                <h2 className="text-xl font-semibold mb-4">Previous Queries and Responses</h2>
+            <div className="mt-6 flex-grow overflow-y-auto max-h-[300px] transition-all duration-500">
+                <h2 className="text-xl font-semibold mb-4">Ask query and get Response!</h2>
                 <div className="overflow-y-auto p-4 bg-white rounded-md shadow-md max-h-[300px]">
                     {queriesAndResponses.map((item, index) => (
                         <motion.div
@@ -206,19 +212,6 @@ const ChatComponent = () => {
                     </button>
                 </div>
             </div>
-
-            {/* Loader */}
-            {loading && (
-                <div className="mt-6 flex items-center justify-center space-x-4">
-                    <div className="w-8 h-8 border-4 border-t-transparent border-green-500 rounded-full animate-spin" />
-                    <div>
-                        <p className="text-lg text-gray-700">Please hold on...</p>
-                        <p className="text-sm text-gray-500">
-                            We are processing your request and uploading files. It will only take a moment!
-                        </p>
-                    </div>
-                </div>
-            )}
         </div>
     );
 };
