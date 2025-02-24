@@ -7,7 +7,7 @@ const CompetitorBenchmark = () => {
     const [response, setResponse] = useState(null);
     const [isUploading, setIsUploading] = useState(false);
 
-    const API_BASE = "https://2ndcompo-production.up.railway.app";
+    const API_BASE = "https://full-project-reverse-engineer-production.up.railway.app/";
     const allowedTypes = [
         "application/pdf", "text/plain", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         "text/csv", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
@@ -28,7 +28,7 @@ const CompetitorBenchmark = () => {
         competitorFiles.forEach(file => formData.append("competitor_files", file));
 
         try {
-            const uploadRes = await fetch(`${API_BASE}/upload/`, { method: "POST", body: formData });
+            const uploadRes = await fetch(`${API_BASE}/2nd-upload/`, { method: "POST", body: formData });
             if (!uploadRes.ok) throw new Error(await uploadRes.text());
 
             const analysisRes = await fetch(`${API_BASE}/response`, {
