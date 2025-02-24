@@ -3,7 +3,7 @@ import axios from "axios";
 import { IoAttach, IoLink, IoArrowBack } from "react-icons/io5";
 import { motion } from "framer-motion";
 
-const API_BASE_URL = "https://reverse-engineer-production.up.railway.app";
+const API_BASE_URL = "https://full-project-reverse-engineer-production.up.railway.app/";
 
 const ChatComponent = () => {
     const [sessionId, setSessionId] = useState("");
@@ -57,7 +57,7 @@ const ChatComponent = () => {
             console.log("Making request to:", queryUrl);  // Log the query URL to ensure it's HTTPS
             await axios.post(queryUrl, { session_id: sessionId, query: inputValue.trim() });
 
-            const fetchUrl = `${API_BASE_URL}/`;
+            const fetchUrl = `${API_BASE_URL}/1st`;
             console.log("Making request to:", fetchUrl);  // Log the fetch URL to ensure it's HTTPS
             const { data } = await axios.get(fetchUrl, { params: { session_id: sessionId, query: inputValue.trim() } });
 
