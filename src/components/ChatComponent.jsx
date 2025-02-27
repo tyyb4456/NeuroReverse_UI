@@ -3,7 +3,7 @@ import axios from "axios";
 import { IoAttach, IoLink, IoArrowBack } from "react-icons/io5";
 import { motion } from "framer-motion";
 
-const API_BASE_URL = "https://reverse-engineer-production.up.railway.app";
+const API_BASE_URL = "https://web-production-a399.up.railway.app/";
 
 const ChatComponent = () => {
     const [sessionId, setSessionId] = useState("");
