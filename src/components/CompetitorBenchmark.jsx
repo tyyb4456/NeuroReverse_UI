@@ -7,7 +7,7 @@ const CompetitorBenchmark = () => {
     const [response, setResponse] = useState(null);
     const [isUploading, setIsUploading] = useState(false);
 
-    const API_BASE = "https://web-production-29ce.up.railway.app/";
+    const API_BASE = "https://neuroreversebenchmarking-production.up.railway.app/";
     const allowedTypes = [
         "application/pdf", "text/plain", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         "text/csv", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
